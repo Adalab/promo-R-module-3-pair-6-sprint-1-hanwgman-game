@@ -1,7 +1,18 @@
 // import monigota from '../images/monigota.png';
 import '../styles/main.scss';
+import {useState} from 'react';
 
 function App() {
+  let [numberOfErrors, setNumberOfErrors] = useState(0);
+
+    const increment = (e) => {
+      e.preventDefault();
+      setNumberOfErrors(numberOfErrors+1);
+      if(numberOfErrors === 13){
+        
+      }
+    };
+
   return (
     <div className="App">
       <div className="page">
@@ -46,8 +57,11 @@ function App() {
               id="last-letter"
             />
           </form>
+
+          <button onClick={increment}>Incrementar</button>
+
         </section>
-        <section className="dummy error-5">
+        <section className={`dummy error-${numberOfErrors}`}>
           <span className="error-13 eye"></span>
           <span className="error-12 eye"></span>
           <span className="error-11 line"></span>
