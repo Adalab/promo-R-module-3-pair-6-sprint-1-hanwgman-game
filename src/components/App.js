@@ -3,16 +3,30 @@ import '../styles/main.scss';
 import {useState} from 'react';
 
 function App() {
-  let [numberOfErrors, setNumberOfErrors] = useState(0);
+  // VARIABLES ESTADO
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter ] = useState('');
 
-    const increment = (e) => {
-      e.preventDefault();
-      setNumberOfErrors(numberOfErrors+1);
-      if(numberOfErrors === 13){
-        
-      }
-    };
+    // FUNCIONES
+  const formSubmit =(e)=>{
+    e.preventDefault();
+  }
+  const increment = () => {
+    setNumberOfErrors(numberOfErrors+1);
+    if(numberOfErrors === 13){
+      
+    }
+  };
+  
+  const inputLetter = (ev) => {
+    setLastLetter(ev.target.value);
+    console.log(lastLetter);
+    
 
+    // if (ev.target.value.includes('A')){
+    //   console.log('hello')
+    // }
+  }
   return (
     <div className="App">
       <div className="page">
@@ -46,7 +60,7 @@ function App() {
               <li className="letter">x</li>
             </ul>
           </div>
-          <form className="form">
+          <form className="form" onSubmit={formSubmit}>
             <label className="title" htmlFor="last-letter">Escribe una letra:</label>
             <input
               autoComplete="off"
@@ -55,10 +69,13 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              onInput={inputLetter}
+              value = {lastLetter}
             />
+             <button onClick={increment}>Incrementar</button>
           </form>
 
-          <button onClick={increment}>Incrementar</button>
+         
 
         </section>
         <section className={`dummy error-${numberOfErrors}`}>
