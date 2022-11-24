@@ -1,11 +1,14 @@
 // import monigota from '../images/monigota.png';
 import '../styles/main.scss';
 import {useState} from 'react';
+import React from 'react';
 
 function App() {
   // VARIABLES ESTADO
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter ] = useState('');
+  const [word, setWord] = useState('katakroker');
+  const [userLetters, setUserLetters] = useState([]);
 
     // FUNCIONES
   const formSubmit =(e)=>{
@@ -20,13 +23,27 @@ function App() {
   
   const inputLetter = (ev) => {
     setLastLetter(ev.target.value);
-    console.log(lastLetter);
-    
+    let regex = new RegExp("^[a-zA-Z ]+$");
 
-    // if (ev.target.value.includes('A')){
-    //   console.log('hello')
-    // }
+    if (regex.test(ev.target.value)) {
+      setLastLetter(ev.target.value)
+
+    } else {
+      setLastLetter('');
+    }
+    setUserLetters(lastLetter);
+    console.log(lastLetter);
   }
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    return wordLetters.map((letter, index) => {
+      return( 
+      <React.Fragment key={index}>
+      <li  className="letter"></li>
+      </React.Fragment>);
+    });
+  };
+
   return (
     <div className="App">
       <div className="page">
@@ -38,7 +55,8 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
+              {renderSolutionLetters()}
+              {/* <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -47,7 +65,7 @@ function App() {
               <li className="letter"></li>
               <li className="letter">k</li>
               <li className="letter">e</li>
-              <li className="letter">r</li>
+              <li className="letter">r</li> */}
             </ul>
           </div>
           <div className="error">
