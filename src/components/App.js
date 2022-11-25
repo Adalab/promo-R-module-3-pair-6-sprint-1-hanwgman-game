@@ -1,45 +1,98 @@
 // import monigota from '../images/monigota.png';
 import '../styles/main.scss';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import React from 'react';
+import callToApi from '../services/api';
 
 function App() {
   // VARIABLES ESTADO
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter ] = useState('');
-  const [word, setWord] = useState('katakroker');
+  const [word, setWord] = useState('katakroker'); //enlazar API
   const [userLetters, setUserLetters] = useState([]);
+
+  // POR QUE TRES CONSTANTES???
+  // const [word, setWord] = useState('');
+  // const [userLetters, setUserLetters] = useState([]);
+  // const [lastLetter, setLastLetter] = useState('');
+
+  // useEffect(() => {
+  //   callToApi().then((response) => {
+  //     setWord(response)
+  //     console.log(response);
+  //   });
+  // },[]);
+
 
     // FUNCIONES
   const formSubmit =(e)=>{
     e.preventDefault();
   }
+
   const increment = () => {
     setNumberOfErrors(numberOfErrors+1);
     if(numberOfErrors === 13){
       
     }
   };
+
+//CONTADOR ERRORES
+  // const getNumberOfErrors = () => {
+  //   const errorLetters = userLetters.filter(
+  //     (letter) => word.includes(letter) === false
+  //   );
+  //   return errorLetters.length;
+  // };
   
   const inputLetter = (ev) => {
-    setLastLetter(ev.target.value);
+    
     let regex = new RegExp("^[a-zA-Z ]+$");
 
-    if (regex.test(ev.target.value)) {
-      setLastLetter(ev.target.value)
-
-    } else {
-      setLastLetter('');
-    }
-    setUserLetters(lastLetter);
-    console.log(lastLetter);
+    if (regex.test(ev.target.value || ev.target.value === '')) {
+    // handleLastLetter(ev.target.value);
+    setLastLetter(ev.target.value);
   }
+  };
+
+  // funcion handleLastLetter por que la creamos.
+
+//   const handleLastLetter = (value) => {
+//     value = value.toLocaleLowerCase();
+//     setLastLetter(value);
+    
+//   if (!userLetters.includes(value)) {
+//     userLetters.push(value);
+//     setUserLetters([...userLetters]);
+//   }
+// }
+
+
+// RENDER DE ERRORES
+// const renderErrorLetters = () => {
+//   const errorLetters = userLetters.filter(
+//     (letter) =>
+//       word.toLocaleLowerCase().includes(letter.toLocaleLowerCase()) === false
+//   );
+//   return errorLetters.map((letter, index) => {
+//     return (
+//       <li key={index} className='letter'>
+//         {letter}
+//       </li>
+//     );
+//   });
+// };
+
+
+
   const renderSolutionLetters = () => {
     const wordLetters = word.split('');
     return wordLetters.map((letter, index) => {
+      const exist = userLetters.includes(letter.toLocaleLowerCase())
       return( 
       <React.Fragment key={index}>
-      <li  className="letter"></li>
+      <li  className="letter">
+      {exist ? letter : ''}
+      </li>
       </React.Fragment>);
     });
   };
@@ -56,16 +109,6 @@ function App() {
             <h2 className="title">Solución:</h2>
             <ul className="letters">
               {renderSolutionLetters()}
-              {/* <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li> */}
             </ul>
           </div>
           <div className="error">
