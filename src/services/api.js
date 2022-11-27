@@ -5,7 +5,6 @@ const callToApi = () => {
       .then((response) => response.json())
       .then(response => {
         return response.word;
-        
       });
   };
   
